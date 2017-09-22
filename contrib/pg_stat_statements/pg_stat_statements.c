@@ -989,7 +989,7 @@ pgss_ProcessUtility(PlannedStmt *pstmt, const char *queryString,
 					bufusage;
 
 		bufusage_start = pgBufferUsage;
-		INSTR_TIME_SET_CURRENT(start);
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
 
 		nested_level++;
 		PG_TRY();
@@ -1011,7 +1011,7 @@ pgss_ProcessUtility(PlannedStmt *pstmt, const char *queryString,
 		}
 		PG_END_TRY();
 
-		INSTR_TIME_SET_CURRENT(duration);
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &duration);
 		INSTR_TIME_SUBTRACT(duration, start);
 
 		/* parse command tag to retrieve the number of affected rows. */
